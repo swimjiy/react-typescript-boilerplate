@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin'); // 예제에는 named export라는 얘기 없었는데
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
@@ -31,33 +32,48 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: [
-          'babel-loader',
-          'eslint-loader'
-        ]
+        use: [{
+          loader: 'babel-loader',
+          options: {
+            presets: [
+            "@babel/preset-env",
+            "@babel/preset-react"
+            ]
+          }
+        }]
       },
       {
         test: /\.jsx?/,
         loader: 'babel-loader',
         options: {
-          presets: [['@babel/preset-env'], '@babel/preset-react'],
+          presets: [['@babel/preset-env'], ['@babel/preset-react']],
         },
       },
     ],
   },
   plugins: [
-    new HtmlWebpackPlugin(),
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: 'public' },
+      ],
+    }),
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, 'public/index.html'),
+    }),
     new CleanWebpackPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new MiniCssExtractPlugin(),
   ],
   devServer: {
+    contentBase: './build',
     hot: true,
-    inline: true
+    inline: true, // 이걸 해야 하나?
+    compress: true,
+    historyApiFallback: true,
   },
   output: {
-    path: path.join(__dirname, 'dist'),
-    // path: path.resolve(__dirname, 'dist'), // resolve
+    // path: path.join(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'dist'),
     filename: 'main.js',
   }
 };
