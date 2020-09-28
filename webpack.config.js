@@ -7,7 +7,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   mode: 'production',
-  entry: './src/index.js',
+  entry: './src/index.tsx',
+  // entry: path.resolve(__dirname, 'src/index'),
   module: {
     rules: [
       {
@@ -49,6 +50,11 @@ module.exports = {
           presets: [['@babel/preset-env'], ['@babel/preset-react']],
         },
       },
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
     ],
   },
   plugins: [
@@ -70,6 +76,9 @@ module.exports = {
     inline: true, // 이걸 해야 하나?
     compress: true,
     historyApiFallback: true,
+  },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js'],
   },
   output: {
     // path: path.join(__dirname, 'dist'),

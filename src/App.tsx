@@ -1,6 +1,6 @@
 import React from 'react';
 
-const App = () => (
+let App: React.FC = () => (
   <div>
     Hello, Webpack!
   </div>
