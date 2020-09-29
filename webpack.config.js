@@ -7,7 +7,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   mode: 'production',
-  entry: './src/index.js',
+  entry: './src/index.tsx',
+  // entry: path.resolve(__dirname, 'src/index'),
   module: {
     rules: [
       {
@@ -49,9 +50,15 @@ module.exports = {
           presets: [['@babel/preset-env'], ['@babel/preset-react']],
         },
       },
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
     ],
   },
   plugins: [
+    new CleanWebpackPlugin(), // 순서대로
     new CopyWebpackPlugin({
       patterns: [
         { from: 'public' },
@@ -60,16 +67,18 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'public/index.html'),
     }),
-    new CleanWebpackPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new MiniCssExtractPlugin(),
   ],
   devServer: {
-    contentBase: './build',
+    contentBase: './build', // to serve static file
     hot: true,
     inline: true, // 이걸 해야 하나?
     compress: true,
     historyApiFallback: true,
+  },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js'],
   },
   output: {
     // path: path.join(__dirname, 'dist'),
