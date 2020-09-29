@@ -1,14 +1,13 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin'); // 예제에는 named export라는 얘기 없었는데
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   mode: 'production',
-  entry: './src/index.tsx',
-  // entry: path.resolve(__dirname, 'src/index'),
+  entry: path.resolve(__dirname, 'src/index'),
   module: {
     rules: [
       {
@@ -50,15 +49,10 @@ module.exports = {
           presets: [['@babel/preset-env'], ['@babel/preset-react']],
         },
       },
-      {
-        test: /\.tsx?$/,
-        use: 'ts-loader',
-        exclude: /node_modules/,
-      },
     ],
   },
   plugins: [
-    new CleanWebpackPlugin(), // 순서대로
+    new CleanWebpackPlugin(),
     new CopyWebpackPlugin({
       patterns: [
         { from: 'public' },
@@ -71,9 +65,8 @@ module.exports = {
     new MiniCssExtractPlugin(),
   ],
   devServer: {
-    contentBase: './build', // to serve static file
+    contentBase: './build',
     hot: true,
-    inline: true, // 이걸 해야 하나?
     compress: true,
     historyApiFallback: true,
   },
@@ -81,8 +74,7 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.js'],
   },
   output: {
-    // path: path.join(__dirname, 'dist'),
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'build'),
     filename: 'main.js',
   }
 };
