@@ -13,6 +13,7 @@
     "baseUrl": "./",
     "module": "esnext",
     "moduleResolution": "node",
+    // "allowJs": true, js가 있어도 type 에러X
     "lib": [
       "es2015",
       "es2017",
