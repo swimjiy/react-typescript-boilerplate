@@ -6,28 +6,38 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-  mode: 'production',
+  mode: 'development',
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, 'src'),
+    },
+    extensions: ['.tsx', '.ts', '.js'],
+  },
   entry: path.resolve(__dirname, 'src/index'),
+  output: {
+    path: path.resolve(__dirname, 'build'),
+    filename: 'main.js',
+  },
   module: {
     rules: [
       {
         test: /\.css$/,
         use: [
           MiniCssExtractPlugin.loader,
-          'css-loader'
-        ]
+          'css-loader',
+        ],
       },
       {
         test: /\.(gif|png|jpe?g|svg)$/i,
         use: [
-          'file-loader'
-        ]
+          'file-loader',
+        ],
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
         use: [
-          'file-loader'
-        ]
+          'file-loader',
+        ],
       },
       {
         test: /\.(js|jsx)$/,
@@ -36,11 +46,11 @@ module.exports = {
           loader: 'babel-loader',
           options: {
             presets: [
-            "@babel/preset-env",
-            "@babel/preset-react"
-            ]
-          }
-        }]
+              '@babel/preset-env',
+              '@babel/preset-react',
+            ],
+          },
+        }],
       },
       {
         test: /\.tsx?$/,
@@ -68,11 +78,4 @@ module.exports = {
     compress: true,
     historyApiFallback: true,
   },
-  resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
-  },
-  output: {
-    path: path.resolve(__dirname, 'build'),
-    filename: 'main.js',
-  }
 };

@@ -4,10 +4,10 @@
   "description": "Boilerplate based on react and typescript",
   "main": "index.js",
   "scripts": {
-    "production": "webpack",
+    "build": "webpack --mode production --config webpack.config.js",
+    "dev": "webpack-dev-server --open",
     "lint": "eslint --ext .ts,.tsx src/",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack-dev-server --open --mode=development --hot"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
