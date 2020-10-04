@@ -1,8 +1,8 @@
 import React from 'react';
 
-let App: React.FC = () => (
+const App: React.FC = () => (
   <div>
-    Hello, World!2
+    Hello, World!
   </div>
 );
 export default App;

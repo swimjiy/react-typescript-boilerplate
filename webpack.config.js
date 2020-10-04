@@ -1,5 +1,4 @@
 const path = require('path');
-const webpack = require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -16,7 +15,9 @@ module.exports = {
   entry: path.resolve(__dirname, 'src/index'),
   output: {
     path: path.resolve(__dirname, 'build'),
-    filename: 'main.js',
+    filename: '[name].[hash].bundle.js',
+    chunkFilename: '[name].[chunkhash].bundle.js',
+    publicPath: '/',
   },
   module: {
     rules: [
@@ -59,6 +60,11 @@ module.exports = {
       },
     ],
   },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+    },
+  },
   plugins: [
     new CleanWebpackPlugin(),
     new CopyWebpackPlugin({
@@ -69,7 +75,6 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'public/index.html'),
     }),
-    new webpack.HotModuleReplacementPlugin(),
     new MiniCssExtractPlugin(),
   ],
   devServer: {
