@@ -6,3 +6,9 @@
 - typescript
 - react
 - eslint (airbnb)
+
+## start
+```
+npm i
+npm start
+```
